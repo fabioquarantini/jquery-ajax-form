@@ -20,6 +20,10 @@ require_once( "inc/mail-config.php" );
 /* PHP email class */
 require_once( "inc/class.phpmailer.php" );
 
+
+/* PHP validation */
+require_once( "inc/validation.php" );
+
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +42,19 @@ require_once( "inc/class.phpmailer.php" );
 
 		<form id="mail-form" name="mail-form" method="post" data-validate="parsley" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
-			<label for="name">Name:</label>
+			<label for="name">Name*:</label>
 			<input id="name" name="name" type="text" placeholder="Insert name" data-required="true" value="<?php echo $name; ?>" />
+
+			<?php 
+				if ($_POST && $name==""){
+					$err=true;
+					echo "<span class=\"error\">This value is required.</span>";
+				}
+				elseif ($_POST && $name!="" && !IsName($name)){
+					$err=true;
+					echo "<span class=\"error\">This value should be a valid name.</span>";
+				}
+			?>
 
 			<label for="surname">Surname:</label>
 			<input id="surname" name="surname" type="text" value="<?php echo $surname; ?>" />
@@ -47,8 +62,19 @@ require_once( "inc/class.phpmailer.php" );
 			<label for="telephone">Telephone:</label>
 			<input id="telephone" name="telephone" type="tel" value="<?php echo $telephone; ?>" />
 
-			<label for="email">Email:</label>
+			<label for="email">Email*:</label>
 			<input id="email" name="email" type="text" data-type="email" data-required="true" value="<?php echo $email; ?>" />
+
+			<?php 
+			if ($_POST && $email==""){
+				$err=true;
+				echo "<span class=\"error\">This value is required.</span>";
+			}
+			elseif ($_POST && $email!="" && !IsEmail($email)){
+				$err=true;
+				echo "<span class=\"error\">This value should be a valid email.</span>";
+			}
+			?>
 
 			<label for="message">Message:</label>
 			<textarea name="message" cols="25" rows="4" id="message"><?php echo $message; ?></textarea>
@@ -110,7 +136,7 @@ require_once( "inc/class.phpmailer.php" );
 			/* Mail message */
 			$mail->Body =  $messageBody;
 
-			/* Alternative plain-text message */			
+			/* Alternative plain-text message */
 			$mail->AltBody = 'This is a plain-text message body'; 
 
 			/* Mail message with embedded image */
@@ -137,7 +163,7 @@ require_once( "inc/class.phpmailer.php" );
 
 		}
 
-		?>	
+		?>
 
 	</body>
 
