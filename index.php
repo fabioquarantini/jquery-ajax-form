@@ -36,10 +36,10 @@ require_once( "inc/class.phpmailer.php" );
 
 		<h1>Mail form</h1>
 
-		<form id="mail-form" name="mail-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+		<form id="mail-form" name="mail-form" method="post" data-validate="parsley" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
 			<label for="name">Name:</label>
-			<input id="name" name="name" type="text" placeholder="Insert name" value="<?php echo $name; ?>" />
+			<input id="name" name="name" type="text" placeholder="Insert name" data-required="true" value="<?php echo $name; ?>" />
 
 			<label for="surname">Surname:</label>
 			<input id="surname" name="surname" type="text" value="<?php echo $surname; ?>" />
@@ -48,7 +48,7 @@ require_once( "inc/class.phpmailer.php" );
 			<input id="telephone" name="telephone" type="tel" value="<?php echo $telephone; ?>" />
 
 			<label for="email">Email:</label>
-			<input id="email" name="email" type="email" value="<?php echo $email; ?>" />
+			<input id="email" name="email" type="text" data-type="email" data-required="true" value="<?php echo $email; ?>" />
 
 			<label for="message">Message:</label>
 			<textarea name="message" cols="25" rows="4" id="message"><?php echo $message; ?></textarea>
@@ -56,6 +56,10 @@ require_once( "inc/class.phpmailer.php" );
 			<button type="submit" value="Submit">Submit</button>
 
 		</form>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="js/parsley.min.js"></script>
+		<!-- script src="js/messages.it.js"></script -->
 
 		<?php
 
